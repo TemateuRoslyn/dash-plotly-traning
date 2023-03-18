@@ -1,12 +1,12 @@
 version: '3.7'
 
 services:
-   dashboard-plotly:
+   dashboard-plotly-rushclin:
      build: 
        context: ./../../modules/rushclin/src/frontend/python
      restart: always
      ports:
-       - 5000:8050
+       - 5002:8050
      networks:
        - network 
     
