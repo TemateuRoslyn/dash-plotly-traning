@@ -39,13 +39,16 @@ definit dans de .yml correspondant.
 
 Veuillez suivre les étapes suivantes pour démarrer ce projet en local
 
+##
 [1] Vous souhaitez demarrer uniquement le projet du module `maestros`:
     A la racine du projet executer la commande:
     `sh maestros-docker-run.sh`
+
+##
 [2] Vous souhaitez demarrer uniquement le projet du module `morritz`:
     A la racine du projet executer la commande:
     `sh morritz-docker-run.sh`
-
+##
 [3] Vous souhaitez demarrer uniquement le projet du module `rushclin`:
     A la racine du projet executer la commande:
     `sh rushclin-docker-run.sh`
