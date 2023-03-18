@@ -1,4 +1,0 @@
- jupyter-dash==0.4.2
- pandas==1.5.3
- dash==2.8.1
-

@@ -1,7 +1,9 @@
-FROM python:3.9.1 as build
+FROM python:3.10
+
+ENV DASH_DEBUG_MODE True
+COPY ./app /app
 WORKDIR /app
-COPY requirements.txt /app/
-RUN pip3 install -r requirements.txt
-COPY . /app/
+RUN set -ex && \
+    pip install -r requirements.txt
 EXPOSE 8050
-CMD ["python", "src/app.py"]
+CMD ["python", "app.py"]
