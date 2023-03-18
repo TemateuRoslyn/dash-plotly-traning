@@ -3,7 +3,7 @@ version: '3.7'
 services:
    dashboard-plotly:
      build: 
-       context: ./../../morritz/src/frontend/python
+       context: ./../../modules/morritz/src/frontend/python
      restart: always
      ports:
        - 5000:8050
