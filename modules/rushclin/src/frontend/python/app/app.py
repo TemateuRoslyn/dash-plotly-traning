@@ -3,12 +3,16 @@ from dash import Dash, html, dcc, Input, Output
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
 
 debug = False if os.environ["DASH_DEBUG_MODE"] == "False" else True
 
 # Application du theme LUX de Bootstrap
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 app.title='Finances'
+
+# Datasets imports 
+apple_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
 
 # Style du sidebar
 SIDEBAR_STYLE = {
@@ -75,7 +79,18 @@ app.layout = dbc.Container(
 def render_page_content(pathname):
     if(pathname == '/'): 
         return [
-
+            html.H1("Le marché financier de Apple", className='text-center'),
+            dcc.Graph(
+                id='apple_graph', 
+                figure=go.Figure(
+                    [
+                        go.Scatter(
+                            x=apple_df['Date'], 
+                            y=apple_df['AAPL.High']
+                        ), 
+                    ]
+                )
+            ), 
         ]
     elif(pathname == '/prices'):
         return [
