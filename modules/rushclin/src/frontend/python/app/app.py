@@ -14,6 +14,7 @@ app.title='Finances'
 # Datasets imports 
 apple_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
 prices_df = px.data.stocks()
+gapminder_df =  px.data.gapminder()
 # Style du sidebar
 SIDEBAR_STYLE = {
     "position": 'fixed', 
@@ -107,7 +108,17 @@ def render_page_content(pathname):
         ]
     elif(pathname == '/slide'):
         return [
-
+            html.H1('Graphe avec slides', className='text-center'), 
+            html.Hr(),
+            dcc.Graph(id='slide'), 
+            dcc.Slider(
+                gapminder_df['year'].min(), 
+                gapminder_df['year'].max(), 
+                step=None, 
+                value=gapminder_df['year'].min(), 
+                marks={str(year):str(year) for year in gapminder_df['year'].unique()}, 
+                id='year-slider'
+            )
         ]
     elif(pathname == '/about'): 
         return [
@@ -128,6 +139,16 @@ def render_page_content(pathname):
 )
 def render_prices_graph(marche): 
     fig = px.line(prices_df, x='date', y=marche)
+    return fig
+
+# Callback pour rendre le composant avac des Slide
+@app.callback(
+    Output('slide', 'figure'), 
+    Input('year-slider', 'value')
+)
+def render_graph_1(year): 
+    filtered_df = gapminder_df[gapminder_df.year == year]
+    fig = px.histogram(filtered_df, x='lifeExp', color='continent')
     return fig
 
 if __name__ == "__main__":
