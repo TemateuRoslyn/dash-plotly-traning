@@ -8,12 +8,12 @@ import plotly.graph_objects as go
 debug = False if os.environ["DASH_DEBUG_MODE"] == "False" else True
 
 # Application du theme LUX de Bootstrap
-app = Dash(external_stylesheets=[dbc.themes.LUX])
+app = Dash(external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
 app.title='Finances'
 
 # Datasets imports 
 apple_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
-
+prices_df = px.data.stocks()
 # Style du sidebar
 SIDEBAR_STYLE = {
     "position": 'fixed', 
@@ -94,7 +94,16 @@ def render_page_content(pathname):
         ]
     elif(pathname == '/prices'):
         return [
-      
+            html.H1('Graphe des prix du marché', className='text-center'), 
+            html.Hr(),
+            html.P("Selectionnez un marché ", className='lead fs-6'),
+            dcc.Dropdown(
+                id='marche', 
+                options = ['AMZN', 'GOOG', 'AAPL', 'FB', 'NFLX', 'MSFT'] , 
+                value='AMZN', 
+                clearable=False
+            ), 
+            dcc.Graph(id="prices_graph"),            
         ]
     elif(pathname == '/slide'):
         return [
@@ -112,5 +121,14 @@ def render_page_content(pathname):
     # Au cas ou l'utilisateur aie entré une url invalide, on lui renvois la page 404
     return dbc.Alert("Oups... La page n'a pas été trouvée. 😴️", color='danger', className='text-center')
     
+# Callback pour le rendu de la ligne d'histogramme des prix. 
+@app.callback(
+    Output('prices_graph', 'figure'), 
+    Input('marche', 'value')
+)
+def render_prices_graph(marche): 
+    fig = px.line(prices_df, x='date', y=marche)
+    return fig
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8050", debug=debug)
