@@ -1,10 +1,10 @@
-import dash
+from dash import Dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 
 LOGO = "./assets/logo.png"
 
-app = dash.Dash(
+app = Dash(
     title="Merritz",
     external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME]
 )
@@ -75,5 +75,6 @@ def render_page_content(pathname):
     )
 
 
+
 if __name__ == "__main__":
-    app.run_server(port=4002,debug=True)
+    app.run(host="0.0.0.0", port="4002", debug=True)

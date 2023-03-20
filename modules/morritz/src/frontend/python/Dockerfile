@@ -9,5 +9,11 @@ RUN set -ex && \
 FROM build
 
 COPY ./app /app
-EXPOSE 8050
-CMD ["python", "app.py"]
+
+EXPOSE 4000
+EXPOSE 4001
+EXPOSE 4002
+
+# CMD ["python", "work-on-dash-view/navbar.py;"]
+# CMD ["python", "work-on-dash-view/responsive-sidebar/sidebar.py"]
+CMD ["python", "work-on-dash-view/sidebar-with-icons/app.py"]

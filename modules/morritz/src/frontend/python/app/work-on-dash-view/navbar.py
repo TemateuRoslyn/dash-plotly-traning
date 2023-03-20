@@ -1,4 +1,4 @@
-import dash
+from dash import Dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 import plotly.express as px
@@ -6,8 +6,8 @@ import pandas as pd
 
 #on charge le fichier boostrap depuis dbc,mais il faut etre
 #connecte pour cela
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],
-                title="Merritz")
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+app.title='Merritz'
 
 app.layout = html.Div(
     [
@@ -168,4 +168,4 @@ def changeDiagram(n_clicks):
     return figList[n_clicks % len(figList)]
 
 if __name__ == "__main__":
-    app.run_server(debug=True,port=4000)
+    app.run(host="0.0.0.0", port="4000", debug=True)
