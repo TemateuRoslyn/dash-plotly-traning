@@ -6,7 +6,9 @@ services:
        context: ./../../modules/morritz/src/frontend/python
      restart: always
      ports:
-       - 4000:8050
+       - 5000:4000
+       - 5001:4001
+       - 5002:4002
      networks:
        - network 
     

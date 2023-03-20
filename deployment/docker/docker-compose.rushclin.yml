@@ -6,7 +6,7 @@ services:
        context: ./../../modules/rushclin/src/frontend/python
      restart: always
      ports:
-       - 5002:8050
+       - 5004:8050
      networks:
        - network 
     
