@@ -6,7 +6,7 @@ services:
        context: ./../../modules/maestros/src/frontend/python
      restart: always
      ports:
-       - 5000:8050
+       - 5003:8050
      networks:
        - network 
     
