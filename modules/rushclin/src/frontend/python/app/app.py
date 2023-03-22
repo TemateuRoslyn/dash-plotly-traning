@@ -1,4 +1,5 @@
 import os
+import dash
 from dash import Dash, html, dcc, Input, Output
 import numpy as np
 import plotly.express as px
@@ -42,6 +43,7 @@ navlinks = dbc.Nav(
         dbc.NavLink("Analyse des prix", href='/prices', active='exact'), 
         dbc.NavLink("Histogramme", href='/histogram', active='exact'), 
         dbc.NavLink("Graphe avec slide", href='/slide', active='exact'), 
+        dbc.NavLink("Callback avancé", href='/advance-callbak', active='exact'), 
         dbc.NavLink("A Propos", href='/about', active='exact'), 
     ], 
     vertical=True,
@@ -157,6 +159,40 @@ def render_page_content(pathname):
                 id='histogram', 
             )
         ]
+    elif(pathname == '/advance-callbak'): 
+        return [
+            html.H1('Callbacks avancés', className='text-center'), 
+            html.Hr(), 
+            html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            html.H6("Une petite conversion Celcius fahrenheit", className='text-muted text-center')
+                        ], 
+                        className='my-3'
+                    ),
+                    html.Div(
+                        children=[
+                            dcc.Input(id='celcius', placeholder='Entrez la temperature en Celcius', type='number', className='form-control')            
+                        ], 
+                        className='col-md-6'
+                    ),
+                    html.Div(
+                        children=[
+                            dcc.Input(id='fahrenheit', placeholder='Entrez la temperature en Fahrenheit',type='number', className='form-control')            
+                        ], 
+                        className='col-md-6'
+                    ),
+                ], 
+                className='row'
+            ),
+            html.Div(
+                children=[
+                    
+                ],
+                className='mt-5'
+            )
+        ]
     # Au cas ou l'utilisateur aie entré une url invalide, on lui renvois la page 404
     return dbc.Alert("Oups... La page n'a pas été trouvée. 😴️", color='danger', className='text-center')
     
@@ -178,6 +214,21 @@ def render_graph_1(year):
     filtered_df = gapminder_df[gapminder_df.year == year]
     fig = px.histogram(filtered_df, x='lifeExp', color='continent')
     return fig  
-
+@app.callback(
+    Output('celcius', 'value'), 
+    Output('fahrenheit', 'value'),
+    Input('celcius', 'value'), 
+    Input('fahrenheit', 'value'),
+)
+def fahrenheit_to_celcius(celcius, fahrenheit): 
+    # Recuperation du context 
+    context = dash.callback_context
+    input_id = context.triggered[0]['prop_id'].split(".")[0]
+    if input_id == 'celcius': 
+        fahrenheit = None if celcius is None else (float(celcius) * 9/5) + 32
+    else: 
+        celcius = None if fahrenheit is None else (float(fahrenheit) - 32) * 5/9
+    return celcius, fahrenheit
+ 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8050", debug=debug)
