@@ -188,7 +188,7 @@ def render_page_content(pathname):
             ),
             html.Div(
                 children=[
-                    
+                    html.H6('Graphe avec plusieurs parametres'),
                 ],
                 className='mt-5'
             )
