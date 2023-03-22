@@ -16,8 +16,11 @@ app.title='Finances'
 
 # Datasets imports 
 apple_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
+
 prices_df = px.data.stocks()
 gapminder_df =  px.data.gapminder()
+
+options_values = [date for date in prices_df['date']]
 
 # Style du sidebar
 SIDEBAR_STYLE = {
@@ -167,7 +170,7 @@ def render_page_content(pathname):
                 children=[
                     html.Div(
                         children=[
-                            html.H6("Une petite conversion Celcius fahrenheit", className='text-muted text-center')
+                            html.H6("Une petite conversion Celcius fahrenheit", className='text-center')
                         ], 
                         className='my-3'
                     ),
@@ -188,7 +191,42 @@ def render_page_content(pathname):
             ),
             html.Div(
                 children=[
-                    html.H6('Graphe avec plusieurs parametres'),
+                    html.H6('Graphe avec plusieurs parametres', className='text-center my-3'),
+                    html.Div(
+                        children= [
+                            html.Div(
+                                dcc.Dropdown(
+                                    id='multi-control-dropdown', 
+                                    options = ['AMZN', 'GOOG', 'AAPL', 'FB', 'NFLX', 'MSFT'] , 
+                                    value='AMZN', 
+                                    clearable=False, 
+                                ),
+                                className='col-4'
+                            ),
+                            html.Div(
+                                dcc.Dropdown(
+                                    id='multi-control-begin', 
+                                    options = options_values , 
+                                    value='2018-01-01', 
+                                    clearable=False,
+                                ), 
+                                className='col-4'
+                            ), 
+                            html.Div(
+                                dcc.Dropdown(
+                                    id='multi-control-end', 
+                                    options = options_values , 
+                                    value='2019-12-30', 
+                                    clearable=False, 
+                                ), 
+                                className='col-4'
+                            )
+                            
+                        ], 
+                        className='row'
+                    ), 
+                    dcc.Graph(id='multi-control-graph'), 
+                     
                 ],
                 className='mt-5'
             )
@@ -214,6 +252,7 @@ def render_graph_1(year):
     filtered_df = gapminder_df[gapminder_df.year == year]
     fig = px.histogram(filtered_df, x='lifeExp', color='continent')
     return fig  
+
 @app.callback(
     Output('celcius', 'value'), 
     Output('fahrenheit', 'value'),
@@ -229,6 +268,17 @@ def fahrenheit_to_celcius(celcius, fahrenheit):
     else: 
         celcius = None if fahrenheit is None else (float(fahrenheit) - 32) * 5/9
     return celcius, fahrenheit
+
+@app.callback(
+    Output('multi-control-graph', 'figure'), 
+    Input('multi-control-begin', 'value'),
+    Input('multi-control-end', 'value'),
+    Input('multi-control-dropdown', 'value')
+)
+def render_multi_control_graph (begin, end, dropdow_value_en): 
+    fig = px.line(prices_df, y=dropdow_value_en, x='date')
+    fig.update_xaxes(rangeslider_visible=True)
+    return fig 
  
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8050", debug=debug)
