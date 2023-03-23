@@ -6,25 +6,55 @@ import pandas as pd
 
 #on charge le fichier boostrap depuis dbc,mais il faut etre
 #connecte pour cela
-app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP,'./assets/style.css'], suppress_callback_exceptions=True)
 app.title='Merritz'
+
+contentLinkActive = "border-bottom border-primary border-5 mb-0"
+contentLinkOff = "border border-0 mb-0"
 
 app.layout = html.Div(
     [
         dcc.Location(id="url"),
         dbc.NavbarSimple(
             children=[
-                dbc.NavLink("Accueil", href="/", active="exact"),
-                dbc.NavLink("Page 1", href="/page1", active="exact"),
-                dbc.NavLink("Table", href="/table", active="exact"),
+                dbc.NavLink(html.Button(id='', className='btn btn-outline-light btn-lg btn-sm', children=[
+                    "Learn more"
+                ]), href="/learn-more", active="exact"),
+                dbc.NavLink(html.Img(id='', className='bg-transparent border-0',
+                    style={"width":"35px","height":"35px"},
+                    src='./assets/dash.png', alt=''), href="/", active="exact")
             ],
-            brand="Titre",
-            color="primary",
+            brand=html.Div(id='', className='', children=[
+                html.H1(id='', className='fs-4', children='MANUFACTURING SPC DASHBOARD'),
+                html.Label(id='', className='fs-6', children='Process Control an Exception Reporting')
+            ]),
+            color="dark",
             dark=True,
         ),
+        html.Hr(id='', className='divider', children=[]),
         dbc.Container(id="page-content", className="pt-4"),
     ]
 )
+
+homeContent = html.Div(id='', className='d-flex', children=[
+    html.Div(id='', className='flex-fill text-center me-3  bg-dark', children=[
+        "SPECIFICATIONS SETTINGS",
+        html.Hr(id='', className=contentLinkActive, children=[])
+    ]),
+    html.Div(id='', className='flex-fill text-center ms-3  bg-dark', children=[
+        "CONTROL CHARTS DASHBORD",
+        html.Hr(id='', className=contentLinkActive, children=[])
+    ])
+])
+
+graphBlock = html.Div(id='', className='', children=[
+    "graph block"
+])
+
+homeBody = html.Div(id='', className='', children=[
+    homeContent,
+    graphBlock
+])
 
 table = html.Table(title="Un tableau",id='', className='table table-hover', children=[
     html.Thead(id='', className='', children=[
@@ -142,7 +172,7 @@ graph = html.Div(children=[
 #fonction associer au callback
 def render_page_content(pathname):
     if pathname == "/":
-        return graph
+        return homeBody
     elif pathname == "/page-1":
         return html.P("apres un callback effectuer sur la navigation page 1,redirection du contenue")
     elif pathname == "/table":
