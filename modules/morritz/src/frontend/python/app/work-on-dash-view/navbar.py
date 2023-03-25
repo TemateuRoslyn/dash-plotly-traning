@@ -4,14 +4,17 @@ from dash import Input, Output, dcc, html
 import plotly.express as px
 import pandas as pd
 
+
 #on charge le fichier boostrap depuis dbc,mais il faut etre
 #connecte pour cela
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP,'./assets/style.css'], suppress_callback_exceptions=True)
 app.title='Merritz'
 
+# Style a utiliser pour la navigation
 contentLinkActive = "border-bottom border-primary border-5 mb-0"
 contentLinkOff = "border border-0 mb-0"
 
+# Template pour le contenue de l'application
 app.layout = html.Div(
     [
         dcc.Location(id="url"),
@@ -36,6 +39,7 @@ app.layout = html.Div(
     ]
 )
 
+# La section qui represente le contenue de l'application
 homeContent = html.Div(id='', className='d-flex', children=[
     html.Div(id='', className='flex-fill text-center me-3  bg-dark', children=[
         "SPECIFICATIONS SETTINGS",
@@ -47,15 +51,18 @@ homeContent = html.Div(id='', className='d-flex', children=[
     ])
 ])
 
+# Definition de la zone ou seront placer les graphes
 graphBlock = html.Div(id='', className='', children=[
     "graph block"
 ])
 
+# Zone ou l'on place le contenue de l'application et les differents graphes
 homeBody = html.Div(id='', className='', children=[
     homeContent,
     graphBlock
 ])
 
+# Un simple tableau bootstrap utiliser dans l'application
 table = html.Table(title="Un tableau",id='', className='table table-hover', children=[
     html.Thead(id='', className='', children=[
         html.Tr(id='', className='', children=[
@@ -129,6 +136,7 @@ table = html.Table(title="Un tableau",id='', className='table table-hover', chil
     ])
 ])
 
+# Un datagramme de donnees utiliser pour dessiner les differents graphes
 df = pd.DataFrame({
     "Fruits": ["Pommes", "Oranges", "Bananes", "pommes", "Oranges",
             "Bananes", "Pommes", "Oranges", "Bananes", "Pommes", 
@@ -140,15 +148,17 @@ df = pd.DataFrame({
         "Tongolo"]
 })
 
-
+# Une enumeration de quelques graphiques
 fig = px.scatter(df, x="Fruits", y="prix", color="ville")
 fig1 = px.bar(df, x="Fruits", y="prix", color="ville", barmode="group")
 fig2 = px.histogram(df, x="Fruits", y="prix", color="ville", 
                     marginal="rug", hover_data=df.columns)
 fig3 = px.area(df, x="Fruits", y="prix", color="ville", line_group="prix")
 
+# Encapsulation des graphes dans une liste
 figList = [fig,fig1,fig2,fig3]
 
+# Templates pour la representation des graphes dans l'application
 graph = html.Div(children=[
     html.H1(children='Mytest on Dash'),
 
@@ -169,6 +179,7 @@ graph = html.Div(children=[
 #Input represente l'element d'entrer qui genere un evenement sur le DOM,
 #et cause un callback
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+# 
 #fonction associer au callback
 def render_page_content(pathname):
     if pathname == "/":
@@ -189,13 +200,18 @@ def render_page_content(pathname):
         className="p-3 bg-light rounded-3",
     )
 
+# Callback pour gerer l'affichage des figures sous formes de slide
 @app.callback(
     Output("example-graph","figure"),
     Input("btn","n_clicks")
 )
+# 
+# Fonction associer au callback de slide
 def changeDiagram(n_clicks):
     print(figList[n_clicks % len(figList)])
     return figList[n_clicks % len(figList)]
 
+
+# Point d'entrer de l'application
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="4000", debug=True)
