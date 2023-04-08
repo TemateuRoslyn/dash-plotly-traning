@@ -65,7 +65,7 @@
   
   .banner button:hover {
     color: #92e0d3;
-    border-color: whitesmoke;
+    border-color: #ffffsmoke;
   }
   
   .banner Img {
@@ -73,21 +73,19 @@
     margin: 0px 10px;
   }
   
-  /* The Modal (background) */
   .modal {
-    display: none; /*Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1005; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1005;
     left: 0;
     top: 0;
-    width: 100vw; /* Full width */
-    height: 100vh; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    width: 100vw; 
+    height: 100vh; 
+    overflow: auto;
+    background-color: rgb(0, 0, 0);  
+    background-color: rgba(0, 0, 0, 0.4);
   }
   
-  /* Modal Content/Box */
   .markdown-container {
     width: 60vw;
     margin: 10% auto;
@@ -114,8 +112,6 @@
     color: #91dfd2;
   }
   
-  /* Tabs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   
   #tabs {
     width: 100%;
@@ -131,7 +127,7 @@
   }
   
   #Specs-tab.custom-tab, #Control-chart-tab.custom-tab {
-    background-color: #161a28;
+    background-color: #161a30;
     letter-spacing: 1px;
     color: inherit;
     border: 0;
@@ -164,15 +160,12 @@
     border-bottom: 1px solid #4b5460;
   }
   
-  /* Main Dashboard Tab
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   
   #top-section-container {
     height: 40rem;
     flex-direction: row;
     display: flex;
     max-width: 100%;
-    /*width: 100%;*/
   }
   
   #metric_header > div {
@@ -190,14 +183,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: center; /* vertical center row items*/
+    align-items: center;
   }
   
   .metric-row:hover {
     background-color: #0F1328;
   }
   
-  /*Dash Daq Graduatebar */
   #Diameter_OOC_graph > div > div,
   #Etch1_OOC_graph > div > div,
   #Film-Thickness_OOC_graph > div > div,
@@ -263,8 +255,6 @@
     color: #91dfd2 !important;
   }
   
-  /* Tab1 content
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   
   #set-specs-intro-container {
     font-weight: bold;
@@ -310,7 +300,7 @@
   
   #value-setter-set-btn:hover, #value-setter-view-btn:hover {
     color: #91dfd2;
-    border-color: white;
+    border-color: #ffff;
   }
   
   #value-setter-panel-usl, #value-setter-panel-lsl, #value-setter-panel-ucl, #value-setter-panel-lcl {
@@ -324,7 +314,6 @@
     width: 80%;
   }
   
-  /*Dropdown*/
   .setting-input {
     width: 100% !important;
     height: 100%;
@@ -337,58 +326,47 @@
   .react-numeric-input input {
     background-color: #242633 !important;
     border-color: darkgray !important;
-    color: white !important;
+    color: #ffff !important;
   }
   
   .react-numeric-input b:nth-child(2) i {
-    border-color: transparent transparent white !important;
+    border-color: transparent transparent #ffff !important;
   }
   
   .react-numeric-input b:nth-child(3) i {
-    border-color: white transparent transparent !important;
+    border-color: #ffff transparent transparent !important;
   }
   
   
-  /* Dropdown
-  ----------------------------------------------*/
-  
-  /*Dropdown items*/
   .Select-control, .Select-multi-value-wrapper, .Select-menu-outer div {
     background-color: #242633;
   }
   
-  /*Dropdown items*/
   .Select-control, .Select, .Select-value-label, .Select-clear-zone {
-    color: white;
+    color: #ffff;
   }
   
   
-  /*Dropdown items*/
   .Select-menu-outer {
     background-color: #242633;
     border: 1px solid darkgray !important;
   }
   
-  /*Dropdown items*/
   .Select-menu-outer div:hover {
     background-color: rgba(36, 38, 51, 0.5) !important;
     cursor: pointer;
   }
   
-  /*Dropdown arrow + delete button*/
   .Select-control, .Select-control > span {
-    color: white;
+    color: #ffff;
     background: #242633 !important;
   }
   
-  /*Placeholder*/
   .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label, .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
-    color: white !important;
+    color: #ffff !important;
   }
   
-  /*Placeholder*/
   .Select--single > .Select-control .Select-value, .Select-placeholder {
-    /*border: 1px solid darkgray;*/
     border-radius: 4px;
     background-color: #242633;
     cursor: pointer;
@@ -399,11 +377,9 @@
     border-color: #91dfd2 !important;
   }
   
-  /* Container
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   
   #app-container {
-    background: #161a28;
+    background: #161a30;
     margin: 1rem 2rem;
     max-width: 100%;
     width: 100%;
@@ -456,8 +432,6 @@
   }
   
   
-  /* Tab 2 Quick stats
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   #quick-stats {
     display: flex;
     flex-direction: column;
@@ -500,10 +474,9 @@
   }
   
   #progress-gauge > div > div > div > div {
-    color: white !important;
+    color: #ffff !important;
   }
   
-  /*pressure-gauge track*/
   .eUJyCY .track {
     stroke: #f4d44d !important;
     stroke-width: 10;
@@ -513,10 +486,8 @@
     stroke: #fff3c5 !important;
   }
   
-  /* Tab 2 Specs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   #stop-button > div > button {
-    color: white !important;
+    color: #ffff !important;
     background-color: #1d202d !important;
     border: 1px solid #4B5460 !important;
     border-radius: 4px;
@@ -526,7 +497,7 @@
   
   #stop-button > div > button:hover {
     color: #91dfd2 !important;
-    border-color: white !important;
+    border-color: #ffff !important;
     background-color: #1d202d !important;
   }
   
@@ -541,8 +512,6 @@
     display: none !important;
   }
   
-  /* Tab 2 metric row
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   .metric-row-button {
     border: none;
     padding: 0px 0px;
@@ -553,7 +522,7 @@
   
   .metric-row-button:hover {
     border: none;
-    color: white !important;
+    color: #ffff !important;
   }
   
   #metric-div {
@@ -671,7 +640,6 @@
       align-self: auto;
     }
   
-    /*Removing borders}*/
     #ooc-piechart-outer {
       border-left: none;
     }
@@ -683,8 +651,6 @@
   }
   
   @media only screen and (max-width: 600px) {
-    /* Display measurement row contents block-level on mobile*/
-    /** Display every row content in block*!*/
     #metric_header {
       position: absolute;
       top: -9999px;
@@ -717,23 +683,19 @@
     }
   
     #metric-rows .column:before, #metric-rows .columns:before {
-      /* Now like a table header */
       position: absolute;
-      /* Top/left values mimic padding */
       left: 6px;
       width: 45%;
       padding-right: 10px;
-      white-space: nowrap;
+      #ffff-space: nowrap;
     }
   
-    /** Attach header vertically to table */
     .metric-row > div {
       height: 30px;
       line-height: 30px;
       text-align: center;
     }
   
-    /*Hide Sparkline*/
     .metric-row > div:nth-of-type(3) {
       display: none;
     }
@@ -742,7 +704,6 @@
       margin-top: 6.5px !important;
     }
   
-    /*Add table header column*/
     .metric-row > div:nth-of-type(1):before {
       content: "Parameter";
     }
