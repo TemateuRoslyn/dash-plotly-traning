@@ -1,3 +1,6 @@
+import os
+import pathlib
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -20,7 +23,9 @@ server = app.server
 app.config["suppress_callback_exceptions"] = True
 
 # lecture du fichier contennant les donnees a manipuler dans l'interface
-df = pd.read_csv('./data/spc_data.csv')
+APP_PATH = str(pathlib.Path(__file__).parent.resolve())
+df = pd.read_csv(os.path.join(APP_PATH, os.path.join("data", "spc_data.csv")))
+
 
 # On utilise la fonction list pour creer une liste sur laquelle on pourra
 # realiser des iterations
