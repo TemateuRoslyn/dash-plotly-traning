@@ -1,284 +1,382 @@
-import os
-import dash
-from dash import Dash, html, dcc, Input, Output
-import numpy as np
-import plotly.express as px
-import pandas as pd
+from dash import dash, html, Output, Input, dcc
 import dash_bootstrap_components as dbc
-import plotly.graph_objects as go
-import plotly.figure_factory as ff
+import dash_daq as daq
 
-debug = False if os.environ["DASH_DEBUG_MODE"] == "False" else True
 
-# Application du theme LUX de Bootstrap
-app = Dash(external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
-app.title='Finances'
-
-# Datasets imports 
-apple_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
-
-prices_df = px.data.stocks()
-gapminder_df =  px.data.gapminder()
-
-options_values = [date for date in prices_df['date']]
-
-# Style du sidebar
-SIDEBAR_STYLE = {
-    "position": 'fixed', 
-    'top': 0, 
-    'left': 0,
-    'bottom': 0, 
-    'width': '16rem', 
-    'padding': '2rem 1rem', 
-    'background-color': '#f1f1f1' 
-}
-
-# Content Style 
-CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
-
-navlinks = dbc.Nav(
-    [
-        dbc.NavLink("Marché financier de Apple", href='/', active='exact'), 
-        dbc.NavLink("Analyse des prix", href='/prices', active='exact'), 
-        dbc.NavLink("Histogramme", href='/histogram', active='exact'), 
-        dbc.NavLink("Graphe avec slide", href='/slide', active='exact'), 
-        dbc.NavLink("Callback avancé", href='/advance-callbak', active='exact'), 
-        dbc.NavLink("A Propos", href='/about', active='exact'), 
-    ], 
-    vertical=True,
-    pills=True,
+app = dash.Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.SOLAR],
 )
+app.title = "Dashboard"
 
-sidebar = html.Div(
-    [
-        html.H2("Finance", className='display-6'), 
-        html.Hr(), 
-        html.P("Courbes de finances ", className='lead my-3 fs-6'), 
-        navlinks
-    ], 
-    style=SIDEBAR_STYLE
-)
 
-content = html.Div(
-    id='page-content', 
-    children=[], 
-    style=CONTENT_STYLE
-)
-
-server = app.server
-
-app.layout = dbc.Container(
-    html.Div(
-        [
-            dcc.Location(id='url'), 
-            sidebar, 
-            content
-        ]
+# Composants
+def render_header():
+    title = html.H4(
+        "DASHBOARD",
+        style={
+            "marginTop": 5,
+            "marginLeft": "10px",
+        },
+        className="text-white",
     )
-)
+    sub_title = html.H5(
+        "Une petite description.",
+        style={"marginLeft": "10px"},
+        className="text-white",
+    )
+    logo_image = html.Img(
+        src=app.get_asset_url("dash-logo.png"),
+        style={
+            "float": "right",
+            "height": 50,
+            "padding": 10,
+        },
+        className="mt-3",
+    )
+    link = html.A(
+        logo_image,
+        href="https://plotly.com/dash/",
+    )
 
-@app.callback( 
-    Output('page-content', 'children'),
-    [Input('url', 'pathname')] 
-)
-def render_page_content(pathname):
-    if(pathname == '/'): 
-        return [
-            html.H1("Le marché financier de Apple", className='text-center'),
-            html.Hr(),
-            dcc.Graph(
-                id='apple_graph', 
-                figure=go.Figure(
+    return dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Row([title]),
+                    dbc.Row([sub_title]),
+                ]
+            ),
+            dbc.Col(link),
+        ],
+        className="my-1",
+    )
+
+
+def render_tab_1():
+    return [
+        html.Div(
+            [
+                html.Div(
                     [
-                        go.Scatter(
-                            x=apple_df['Date'], 
-                            y=apple_df['AAPL.High']
-                        ), 
-                    ]
-                )
-            ), 
-        ]
-    elif(pathname == '/prices'):
-        return [
-            html.H1('Graphe des prix du marché', className='text-center'), 
-            html.Hr(),
-            html.P("Selectionnez un marché ", className='lead fs-6'),
-            dcc.Dropdown(
-                id='marche', 
-                options = ['AMZN', 'GOOG', 'AAPL', 'FB', 'NFLX', 'MSFT'] , 
-                value='AMZN', 
-                clearable=False
-            ), 
-            dcc.Graph(id="prices_graph"),            
-        ]
-    elif(pathname == '/slide'):
-        return [
-            html.H1('Graphe avec slides', className='text-center'), 
-            html.Hr(),
-            dcc.Graph(id='slide'), 
-            dcc.Slider(
-                gapminder_df['year'].min(), 
-                gapminder_df['year'].max(), 
-                step=None, 
-                value=gapminder_df['year'].min(), 
-                marks={str(year):str(year) for year in gapminder_df['year'].unique()}, 
-                id='year-slider'
-            )
-        ]
-    elif(pathname == '/about'): 
-        return [
-            html.H1('A propos de moi', className='text-center'), 
-            html.Hr(),
-            html.Blockquote(
+                        html.P(
+                            "Utilisez cette interface pour le parametrage du Dashboard"
+                        )
+                    ],
+                    id="",
+                    className="mt-5",
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                html.Label(
+                                    id="select",
+                                    children="Selectionnez la metrique",
+                                    className="mb-3",
+                                ),
+                                html.Br(),
+                                dcc.Dropdown(
+                                    options=[
+                                        "Facebook",
+                                        "WhatsApp",
+                                        "Telegram",
+                                    ],
+                                    id="select",
+                                ),
+                            ],
+                            md=4,
+                        ),
+                        dbc.Col(
+                            [
+                                html.Div(
+                                    generate_row(
+                                        "specification",
+                                        {
+                                            "borderBottom": "solid 2px #f1f1f1",
+                                            "height": "2rem",
+                                        },
+                                        {
+                                            "id": "m_header_1",
+                                            "children": html.Div("Specification"),
+                                        },
+                                        {
+                                            "id": "m_header_2",
+                                            "children": html.Div("Valeur"),
+                                        },
+                                        {
+                                            "id": "m_header_3",
+                                            "children": html.Div("Nouvelle valeur"),
+                                        },
+                                    ),
+                                ),
+                                html.Div(
+                                    [
+                                        generate_row(
+                                            "row_1",
+                                            {
+                                                "marginTop": "10px",
+                                                "marginBottom": "10px",
+                                            },
+                                            {
+                                                "id": "m_header_1",
+                                                "children": html.Div("Specification 1"),
+                                            },
+                                            {
+                                                "id": "m_header_1",
+                                                "children": html.Div("20"),
+                                            },
+                                            {
+                                                "id": "m_header_1",
+                                                "children": html.Div(
+                                                    dcc.Input(
+                                                        value=1,
+                                                        type="number",
+                                                        className="p-1",
+                                                    )
+                                                ),
+                                            },
+                                        )
+                                    ]
+                                ),
+                            ],
+                            md=8,
+                            className="px-5",
+                        ),
+                    ],
+                ),
+            ],
+            className="px-5",
+        )
+    ]
+
+
+def render_tabs():
+    return html.Div(
+        id="tabs",
+        className="tabs",
+        children=[
+            dcc.Tabs(
+                id="app-tabs",
+                value="tab2",
+                className="custum-tabs",
                 children=[
-                    html.P("Crée dans le cadre de l'apprentissage de Dash - Plotly"), 
-                    html.Figcaption("Rushclin Takam", className='blockquote-footer'),
-                ], 
-                className='blockquote'
-            ), 
-            html.Ul(
-                children=[
-                    html.Li("Prise en main de Dash", className='list-item'),
-                    html.Li("Installation de dash_bootstrap_components"),
-                    html.Li("Mise en place d'un Layout"),
-                    html.Li("Ajout des liens  hypertexts dans l'application"),
-                    html.Li("Changement de l'apparence de Bootstrap en choisissant son thème"),
-                    html.Li("Creation des graphes avec dash_core_component"),
-                    html.Li("Utilisation minimale de Docker"),
-                    html.Li("Utilisation des callback pour donner du dynamisme à l'application"),
-                ], 
-                className='list'
-            )
-        ]
-    elif(pathname == '/histogram'): 
-        return [
-            html.H1('Graphe avec des histogrammes', className='text-center'), 
-            html.Hr(),
-            dcc.Graph(
-                id='histogram', 
-            )
-        ]
-    elif(pathname == '/advance-callbak'): 
-        return [
-            html.H1('Callbacks avancés', className='text-center'), 
-            html.Hr(), 
+                    dcc.Tab(
+                        id="setting_tab",
+                        label="PARAMETRAGES DU DASHBOARD",
+                        value="tab1",
+                        className="custom-tab",
+                        selected_className="custom-tab--selected",
+                    ),
+                    dcc.Tab(
+                        id="control_tab",
+                        label="GRAPHES DE CONTRôLE",
+                        value="tab2",
+                        className="custom-tab",
+                        selected_className="custom-tab--selected",
+                    ),
+                ],
+            ),
+        ],
+    )
+
+
+def render_side_bar_graph():
+    return html.Div(
+        id="",
+        children=[
             html.Div(
-                children=[
-                    html.Div(
-                        children=[
-                            html.H6("Une petite conversion Celcius fahrenheit", className='text-center')
-                        ], 
-                        className='my-3'
+                [
+                    html.P("ID"),
+                    daq.LEDDisplay(
+                        id="",
+                        value="1704",
+                        color="#92e0d3",
+                        backgroundColor="#1e2130",
+                        size=50,
                     ),
-                    html.Div(
-                        children=[
-                            dcc.Input(id='celcius', placeholder='Entrez la temperature en Celcius', type='number', className='form-control')            
-                        ], 
-                        className='col-md-6'
-                    ),
-                    html.Div(
-                        children=[
-                            dcc.Input(id='fahrenheit', placeholder='Entrez la temperature en Fahrenheit',type='number', className='form-control')            
-                        ], 
-                        className='col-md-6'
-                    ),
-                ], 
-                className='row'
+                ],
+                className="custum_card mb-5",
             ),
             html.Div(
-                children=[
-                    html.H6('Graphe avec plusieurs parametres', className='text-center my-3'),
-                    html.Div(
-                        children= [
-                            html.Div(
-                                dcc.Dropdown(
-                                    id='multi-control-dropdown', 
-                                    options = ['AMZN', 'GOOG', 'AAPL', 'FB', 'NFLX', 'MSFT'] , 
-                                    value='AMZN', 
-                                    clearable=False, 
-                                ),
-                                className='col-4'
-                            ),
-                            html.Div(
-                                dcc.Dropdown(
-                                    id='multi-control-begin', 
-                                    options = options_values , 
-                                    value='2018-01-01', 
-                                    clearable=False,
-                                ), 
-                                className='col-4'
-                            ), 
-                            html.Div(
-                                dcc.Dropdown(
-                                    id='multi-control-end', 
-                                    options = options_values , 
-                                    value='2019-12-30', 
-                                    clearable=False, 
-                                ), 
-                                className='col-4'
-                            )
-                            
-                        ], 
-                        className='row'
-                    ), 
-                    dcc.Graph(id='multi-control-graph'), 
-                     
+                [
+                    html.P("FREQUENCE"),
+                    daq.Gauge(
+                        id="",
+                        max=2,
+                        min=0,
+                        showCurrentValue=True,
+                    ),
                 ],
-                className='mt-5'
+                className="custum_card mb-5",
+            ),
+            html.Div(
+                [
+                    daq.StopButton(
+                        id="",
+                        size=100,
+                        n_clicks=0,
+                    )
+                ],
+                id="",
+            ),
+        ],
+        className="bg-dark p-3",
+    )
+
+
+def render_header_list():
+    return generate_row(
+        "header_list",
+        {"height": "3rem", "margin": "1rem 0"},
+        {"id": "m_header_1", "children": html.Div("Parametres")},
+        {"id": "m_header_2", "children": html.Div("Total")},
+        {"id": "m_header_3", "children": html.Div("Evolution")},
+    )
+
+
+def generate_row(id, style, col1, col2, col3):
+    if style is None:
+        style = {"height": "8rem", "width": "100%"}
+    return dbc.Row(
+        children=[
+            dbc.Col(
+                id=col1["id"],
+                children=col1["children"],
+            ),
+            dbc.Col(
+                id=col2["id"],
+                children=col2["children"],
+            ),
+            dbc.Col(
+                id=col3["id"],
+                children=col3["children"],
+            ),
+        ],
+        id=id,
+        style=style,
+    )
+
+
+def render_content_top():
+    return html.Div(
+        children=[
+            dbc.Row(
+                children=[
+                    dbc.Col(
+                        [
+                            html.Div(
+                                ["Graphe de contrôle de metrique"],
+                                className="px-3 text-capitalize text-muted",
+                            ),
+                            html.Hr(),
+                            html.Div(
+                                id="",
+                                children=[
+                                    render_header_list(),
+                                    html.Div(
+                                        [
+                                            "Les elements ici",
+                                        ],
+                                        id="",
+                                    ),
+                                ],
+                                className="px-3",
+                            ),
+                        ],
+                        md=8,
+                        className="bg-dark p-2",
+                    ),
+                    dbc.Col(
+                        [
+                            html.Div(
+                                ["Les parametres"],
+                                className="px-3 text-capitalize text-muted",
+                            ),
+                            html.Hr(),
+                            dcc.Graph(
+                                id="",
+                                figure={
+                                    "data": [
+                                        {
+                                            "labels": [],
+                                            "values": [],
+                                            "type": "pie",
+                                            "marker": {
+                                                "line": {"color": "white", "width": 1}
+                                            },
+                                            "hoverinfo": "label",
+                                            "textinfo": "label",
+                                        }
+                                    ],
+                                    "layout": {
+                                        "margin": dict(l=20, r=20, t=20, b=20),
+                                        "showlegend": True,
+                                        "paper_bgcolor": "rgba(0,0,0,0)",
+                                        "plot_bgcolor": "rgba(0,0,0,0)",
+                                        "font": {"color": "white"},
+                                        "autosize": True,
+                                    },
+                                },
+                            ),
+                        ],
+                        md=4,
+                        className="bg-dark p-2",
+                    ),
+                ],
+                id="",
             )
-        ]
-    # Au cas ou l'utilisateur aie entré une url invalide, on lui renvois la page 404
-    return dbc.Alert("Oups... La page n'a pas été trouvée. 😴️", color='danger', className='text-center')
-    
-# Callback pour le rendu de la ligne d'histogramme des prix. 
-@app.callback(
-    Output('prices_graph', 'figure'), 
-    Input('marche', 'value')
-)
-def render_prices_graph(marche): 
-    fig = px.line(prices_df, x='date', y=marche)
-    return fig
+        ],
+        className="px-3",
+    )
 
-# Callback pour rendre le composant avac des Slide
-@app.callback(
-    Output('slide', 'figure'), 
-    Input('year-slider', 'value')
+
+app.layout = dbc.Container(
+    fluid=True,
+    children=[
+        render_header(),
+        html.Hr(),
+        render_tabs(),
+        html.Div(
+            id="app-content",
+        ),
+    ],
+    id="app-container",
 )
-def render_graph_1(year): 
-    filtered_df = gapminder_df[gapminder_df.year == year]
-    fig = px.histogram(filtered_df, x='lifeExp', color='continent')
-    return fig  
+
 
 @app.callback(
-    Output('celcius', 'value'), 
-    Output('fahrenheit', 'value'),
-    Input('celcius', 'value'), 
-    Input('fahrenheit', 'value'),
+    [Output("app-content", "children")],
+    [Input("app-tabs", "value")],
 )
-def fahrenheit_to_celcius(celcius, fahrenheit): 
-    # Recuperation du context 
-    context = dash.callback_context
-    input_id = context.triggered[0]['prop_id'].split(".")[0]
-    if input_id == 'celcius': 
-        fahrenheit = None if celcius is None else (float(celcius) * 9/5) + 32
-    else: 
-        celcius = None if fahrenheit is None else (float(fahrenheit) - 32) * 5/9
-    return celcius, fahrenheit
+def render_tab_content(tab_switch):
+    if tab_switch == "tab1":
+        return render_tab_1()
+    return [
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        render_side_bar_graph(),
+                    ],
+                    md=3,
+                ),
+                dbc.Col(
+                    [
+                        html.Div(
+                            id="graph_container",
+                            children=[
+                                render_content_top(),
+                            ],
+                        ),
+                    ],
+                    md=9,
+                ),
+            ],
+            id="",
+            className="mt-3",
+        )
+    ]
 
-@app.callback(
-    Output('multi-control-graph', 'figure'), 
-    Input('multi-control-begin', 'value'),
-    Input('multi-control-end', 'value'),
-    Input('multi-control-dropdown', 'value')
-)
-def render_multi_control_graph (begin, end, dropdow_value_en): 
-    fig = px.line(prices_df, y=dropdow_value_en, x='date')
-    fig.update_xaxes(rangeslider_visible=True)
-    return fig 
- 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="8050", debug=debug)
+
+app.run_server(debug=True, port=8050)
