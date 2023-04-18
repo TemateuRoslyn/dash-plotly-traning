@@ -1,31 +1,18 @@
-from dash import Dash
+import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, dcc, html
-import plotly.express as px
-import pandas as pd
+from dash import html, dcc
 
-#on charge le fichier boostrap depuis dbc,mais il faut etre
-#connecte pour cela
-app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
-app.title='Merritz'
+dash.register_page(__name__, path='/')
 
-app.layout = html.Div(
-    [
-        dcc.Location(id="url"),
-        dbc.NavbarSimple(
-            children=[
-                dbc.NavLink("Accueil", href="/", active="exact"),
-                dbc.NavLink("Page 1", href="/page1", active="exact"),
-                dbc.NavLink("Table", href="/table", active="exact"),
-            ],
-            brand="Titre",
-            color="primary",
-            dark=True,
-        ),
-        dbc.Container(id="page-content", className="pt-4"),
-    ]
-)
 
+
+# Style a utiliser pour la navigation
+contentLinkActive = "border-bottom border-primary border-5 mb-0"
+contentLinkOff = "border border-0 mb-0"
+
+
+
+# Un simple tableau bootstrap utiliser dans l'application
 table = html.Table(title="Un tableau",id='', className='table table-hover', children=[
     html.Thead(id='', className='', children=[
         html.Tr(id='', className='', children=[
@@ -99,73 +86,21 @@ table = html.Table(title="Un tableau",id='', className='table table-hover', chil
     ])
 ])
 
-df = pd.DataFrame({
-    "Fruits": ["Pommes", "Oranges", "Bananes", "pommes", "Oranges",
-            "Bananes", "Pommes", "Oranges", "Bananes", "Pommes", 
-            "Oranges", "Bananes"],
-    "prix": [400, 150, 225, 254, 444, 545, 765, 409, 692, 950, 300, 275],
-    "ville": [
-        "Dschang", "Bafoussam", "Bouda", "Badjoun", "Bangangte", 
-        "Baham", "Douala", "Kribi", "Mbepanda", "Fomopea", "Bafia",
-        "Tongolo"]
-})
 
 
-fig = px.scatter(df, x="Fruits", y="prix", color="ville")
-fig1 = px.bar(df, x="Fruits", y="prix", color="ville", barmode="group")
-fig2 = px.histogram(df, x="Fruits", y="prix", color="ville", 
-                    marginal="rug", hover_data=df.columns)
-fig3 = px.area(df, x="Fruits", y="prix", color="ville", line_group="prix")
 
-figList = [fig,fig1,fig2,fig3]
-
-graph = html.Div(children=[
-    html.H1(children='Mytest on Dash'),
-
-    html.Div(children='''
-        Presentation des prix de quelques fruits dans les villes camerounaises
-    '''),
-    html.Button(id='btn', className='btn btn-info', children=[
-        '''Next graph style'''
-    ], n_clicks=0),
-    dcc.Graph(
-        id='example-graph'
-    )
+layout = html.Div(id='', className='', children=[
+    html.Div(id='', className='d-flex mt-2', children=[
+        html.Div(id='', className='flex-fill text-center me-3  bg-dark', children=[
+            "SPECIFICATIONS SETTINGS",
+            html.Hr(id='', className=contentLinkActive, children=[])
+        ]),
+        html.Div(id='', className='flex-fill text-center ms-3  bg-dark', children=[
+            "CONTROL CHARTS DASHBORD",
+            html.Hr(id='', className=contentLinkActive, children=[])
+        ])
+    ]),
+    html.Div(id='', className='', children=[
+        table
+    ])
 ])
-
-
-#debut de l'action de callback,
-#Output represente l'element cibler par la consequence d'un callback,
-#Input represente l'element d'entrer qui genere un evenement sur le DOM,
-#et cause un callback
-@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-#fonction associer au callback
-def render_page_content(pathname):
-    if pathname == "/":
-        return graph
-    elif pathname == "/page-1":
-        return html.P("apres un callback effectuer sur la navigation page 1,redirection du contenue")
-    elif pathname == "/table":
-        return table
-    # On capture les pages indisponibles dans finally
-    #Si les etapes precedentes ne sont pas verifier, faire ce qui suit
-    return html.Div(
-        [
-            html.H1("404: Oups, Page inexistante...", className="text-danger"),
-            html.Br(),
-            #le 'f' devant une chaine specifie qu'elle doit etre compiler avant un rendu
-            html.P(f"Le chemin {pathname} n'a pas ete reconnue..."),
-        ],
-        className="p-3 bg-light rounded-3",
-    )
-
-@app.callback(
-    Output("example-graph","figure"),
-    Input("btn","n_clicks")
-)
-def changeDiagram(n_clicks):
-    print(figList[n_clicks % len(figList)])
-    return figList[n_clicks % len(figList)]
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="4000", debug=True)
