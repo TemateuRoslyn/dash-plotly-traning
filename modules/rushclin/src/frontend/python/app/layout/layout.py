@@ -21,6 +21,8 @@ class Layout:
                     id='app-content',
                     className='mx-5'
                 ),
+                # Juste pour le test
+                html.H1(id='timer'),
                 dcc.Interval(
                     id='interval-component',
                     interval=1*1000,
