@@ -13,7 +13,7 @@ class Navbar:
             children=[
                 dcc.Tabs(
                     id='app-tabs',
-                    value='capteur',
+                    value='accelerometre',
                     className='custum-tabs mx-5 mb-2',
                     children=[
                         dcc.Tab(

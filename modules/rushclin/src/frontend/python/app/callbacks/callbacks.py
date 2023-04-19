@@ -1,8 +1,8 @@
 from callbacks.render_page import RenderPageCallback
-from callbacks.interval_callback import IntervalCallback
+from callbacks.accelerometre import Accelerometre
 
 
 class Callbacks:
     def __init__(self, app):
         RenderPageCallback(app).register()
-        IntervalCallback(app).register()
+        Accelerometre(app).register()

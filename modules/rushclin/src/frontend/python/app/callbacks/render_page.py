@@ -1,4 +1,4 @@
-from dash import html, Input, Output
+from dash import Input, Output
 
 from pages.capteurs import Capteurs
 from pages.accelerometres import Accelerometres
