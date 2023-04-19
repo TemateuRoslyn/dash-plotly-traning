@@ -1,4 +1,4 @@
-from dash import Dash, dash, html, Input, Output, State, dash_table
+from dash import Dash
 import dash_bootstrap_components as dbc
 
 from layout.layout import Layout
