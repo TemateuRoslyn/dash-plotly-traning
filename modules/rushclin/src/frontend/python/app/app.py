@@ -2,38 +2,25 @@ from dash import Dash, dash, html, Input, Output, State, dash_table
 import dash_bootstrap_components as dbc
 
 from layout.layout import Layout
+from callbacks.callbacks import Callbacks
 
 
 class App:
     def __init__(self):
         print("============= INIT APP")
         self.layout = Layout()
-        self.title = 'DASHBOARD APP'
-
-    def run_app(self):
-        app = Dash(
+        self.app = Dash(
             __name__,
             external_stylesheets=[
                 dbc.themes.SOLAR
             ]
         )
+        self.callbacks = Callbacks(self.app)
 
-        app.layout = self.layout.render()
-        app.title = self.title
+    def run_app(self):
+        self.app.layout = self.layout.render()
 
-        # CALLBACKS METHODS
-
-        @app.callback(
-            Output("app-content", "children"),
-            Input("app-tabs", "value"),
-        )
-        def render_pages(tab_switch):
-            if tab_switch == "settings":
-                return [html.H1('Bonjour petit Rushclin')]
-            else:
-                return [html.H1('Bonsoit grand Takam')]
-
-        app.run_server(
+        self.app.run_server(
             debug=True,
             port=8089
         )
