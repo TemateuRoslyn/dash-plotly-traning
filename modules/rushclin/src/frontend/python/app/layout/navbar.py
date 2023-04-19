@@ -13,20 +13,20 @@ class Navbar:
             children=[
                 dcc.Tabs(
                     id='app-tabs',
-                    value='graphes',
+                    value='capteur',
                     className='custum-tabs mx-5 mb-2',
                     children=[
                         dcc.Tab(
                             id='setting_tab',
-                            label='paramètres',
-                            value='settings',
+                            label='Accelerometres',
+                            value='accelerometre',
                             className="custom-tab text-uppercase",
                             selected_className="custom-tab--selected",
                         ),
                         dcc.Tab(
                             id="control_tab",
-                            label="graphes de contrôle",
-                            value="graphes",
+                            label="Capteurs",
+                            value="capteur",
                             className="custom-tab text-uppercase",
                             selected_className="custom-tab--selected",
                         ),

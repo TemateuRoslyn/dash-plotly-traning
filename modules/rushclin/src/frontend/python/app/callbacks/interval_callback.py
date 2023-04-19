@@ -1,5 +1,4 @@
 from dash import html, Input, Output
-from services.APIRequest import APIRequest
 from services.accelerometre1_service import Accelerometre1Service
 
 

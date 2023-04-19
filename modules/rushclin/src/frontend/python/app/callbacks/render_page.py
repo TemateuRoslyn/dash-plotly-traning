@@ -1,9 +1,14 @@
 from dash import html, Input, Output
 
+from pages.capteurs import Capteurs
+from pages.accelerometres import Accelerometres
+
 
 class RenderPageCallback:
     def __init__(self, app) -> None:
         self.app = app
+        self.capteurs = Capteurs()
+        self.accelerometres = Accelerometres()
 
     def register(self):
         @self.app.callback(
@@ -11,7 +16,7 @@ class RenderPageCallback:
             Input("app-tabs", "value"),
         )
         def register_pages(tab_switch):
-            if tab_switch == "settings":
-                return [html.H1('Bonjour petit Rushclin')]
+            if tab_switch == "accelerometre":
+                return self.accelerometres.render()
             else:
-                return [html.H1('Bonsoit grand Takam')]
+                return self.capteurs.render()
