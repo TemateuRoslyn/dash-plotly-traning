@@ -16,7 +16,6 @@ class App:
             ],
             suppress_callback_exceptions=True
         )
-        # self.app.suppress_callback_exceptions = True
         self.callbacks = Callbacks(self.app)
 
     def run_app(self):
