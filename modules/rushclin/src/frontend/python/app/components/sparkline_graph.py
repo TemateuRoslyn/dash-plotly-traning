@@ -7,14 +7,16 @@ np.random.seed(1)
 class SparkLine:
     def __init__(self) -> None:
         self.N = 100
-        self.random_x = np.linspace(0, 1, self.N)
+        self.random_x = np.linspace(0, 3, self.N)
         self.random_y = np.random.randn(self.N)
 
     def render(self, id, x, y, name="Graph"):
         if x is None:
             x = self.random_x
         if y is None:
-            y = self.random_y
+            array = []
+            array = [0 for i in range(2)]
+            y = array
         fig = dcc.Graph(
             config={
                 "staticPlot": False,
@@ -41,16 +43,17 @@ class SparkLine:
                             showgrid=False, showline=False, zeroline=False
                         ),
                         "autosize": True,
-                        "margin": dict(l=20, r=20, t=20, b=20),
                         "showlegend": True,
                         "paper_bgcolor": "rgba(0,0,0,0)",
                         "plot_bgcolor": "rgba(0,0,0,0)",
                         "font": {"color": "white"},
-                        "height": 300
+                        "height": 300,
+                        "uirevision": True,
+                        "margin": dict(l=0, r=0, t=4, b=4, pad=4),
                     },
                 }
             ),
-            className='p-0 bg-dark'
+            className='py-2 px-4 bg-dark rounded'
         )
 
         return fig

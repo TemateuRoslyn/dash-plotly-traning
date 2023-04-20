@@ -17,10 +17,8 @@ class Capteurs:
                 ]),
                 dbc.Row(
                     [
-                        dbc.Col(self.sparkline_graph.render(
-                            id='capteur-sparkline-graph', x=None, y=None, name="Capteur-spark")),
-                        dbc.Col(self.sparkline_graph.render(
-                                id='capteur-sparkline-graph', x=None, y=None))
+                        dbc.Col(id='capteur-sparkline-graph'),
+                        dbc.Col(id='capteur-sparkline-graph-1'),
                     ]
                 )
             ]
