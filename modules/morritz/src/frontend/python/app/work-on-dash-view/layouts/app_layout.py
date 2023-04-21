@@ -8,6 +8,7 @@ import dash_daq as daq
 
 import pandas as pd
 
+
 # Fonction utiliser pour generer la nav-bar
 def build_banner(app):
     return html.Div(

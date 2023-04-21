@@ -3,6 +3,8 @@ from layouts.graph_layout import render_fig
 from graphs.graph_data import *
 from graphs.chart import *
 
+# callbacks de rechargement des differents graphics de l'application
+
 def line_graph_update(app):
     @app.callback(
         Output("line_chart", "children"),

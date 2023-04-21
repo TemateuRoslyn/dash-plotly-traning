@@ -1,5 +1,6 @@
 import plotly.express as px
 
+# fonction a utiliser pour le rendu des graphiques
 def chart_graph(df,id):
     if (id == 'line'):
         fig = px.line(

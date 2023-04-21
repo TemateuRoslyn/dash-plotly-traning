@@ -4,8 +4,6 @@ import dash_core_components as dcc
 from dash import Dash
 
 # import des librairies
-from layouts.graph_layout import render_fig
-from graphs.graph_data import *
 from layouts.app_layout import *
 from callbacks.callbacks import load_callbacks
 

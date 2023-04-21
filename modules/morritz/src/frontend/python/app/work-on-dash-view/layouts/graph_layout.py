@@ -3,6 +3,8 @@ import dash_html_components as html
 from graphs.graph_data import *
 from graphs.chart import *
 
+# layout utiliser pour rendre les differents graphiques
+
 def render_fig(id,title):
     df = load_data()
     return ([
