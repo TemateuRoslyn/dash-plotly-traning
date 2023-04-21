@@ -21,7 +21,11 @@ def tabs_callback(app):
                         id="graphs-container",
                         children=[
                             html.Div(id='line_chart', className='',
-                                      children=render_fig(id="line",title="Line Chart"))
+                                      children=render_fig(id="line",title="Line Chart")),
+                            html.Div(id='pie_chart', className='',
+                                      children=render_fig(id="pie",title="Pie Chart")),
+                            html.Div(id='box_chart', className='',
+                                      children=render_fig(id="box",title="Box Chart"))
                         ],
                     ),
                 ],
