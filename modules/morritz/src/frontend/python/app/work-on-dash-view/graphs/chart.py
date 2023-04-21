@@ -4,7 +4,7 @@ def chart_graph(df,id):
     if (id == 'line'):
         fig = px.line(
             df,
-            x="date",
+            x="time",
             y="temperature",
             markers=True,
         )
@@ -20,10 +20,11 @@ def chart_graph(df,id):
         fig.update_traces(textposition='inside', textinfo='percent+label')
         return fig
     else:
-        fig = px.line(
+        fig = px.scatter(
             df,
-            x="date",
+            x="time",
             y="temperature",
-            markers=True,
+            color="code",
+            hover_name="code"
         )
         return fig

@@ -18,4 +18,4 @@ class Accelerometre1:
         self.temperature = self.temperature + [random.uniform(-5,100)]
         self.date = self.date + [len(self.date)+1]
         self.postal_codes = self.postal_codes + [list[random.randint(0,(len(list)-1))]]
-        return {"temperature": self.temperature, "date": self.date, "code":self.postal_codes}
+        return {"temperature": self.temperature, "time": self.date, "code":self.postal_codes}

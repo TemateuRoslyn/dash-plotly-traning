@@ -24,8 +24,8 @@ def tabs_callback(app):
                                       children=render_fig(id="line",title="Line Chart")),
                             html.Div(id='pie_chart', className='',
                                       children=render_fig(id="pie",title="Pie Chart")),
-                            html.Div(id='box_chart', className='',
-                                      children=render_fig(id="box",title="Box Chart"))
+                            html.Div(id='scatter_chart', className='',
+                                      children=render_fig(id="scatter",title="Scatter Chart"))
                         ],
                     ),
                 ],
