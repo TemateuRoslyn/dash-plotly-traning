@@ -2,13 +2,13 @@
 
 import random
 
-class Accelerometre1:
+class Comparateur1:
     def __init__(self):
         self.postal_codes = [94016, 80014, 60659, 10011]
         self.current_temp = 50
         self.max_temp = 100
         self.min_temp = 0
-        self.nom_capteur = "Accelerometre No 1"
+        self.nom_capteur = "Comparateur No 1"
 
     def get_next(self):
         if random.random() >= 0.5:
