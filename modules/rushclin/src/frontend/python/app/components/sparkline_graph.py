@@ -6,8 +6,8 @@ np.random.seed(1)
 
 class SparkLine:
     def __init__(self) -> None:
-        self.N = 100
-        self.random_x = np.linspace(0, 3, self.N)
+        self.N = 1000
+        self.random_x = np.linspace(0, 10, self.N)
         self.random_y = np.random.randn(self.N)
 
     def render(self, id, x, y, name="Graph"):
@@ -50,6 +50,7 @@ class SparkLine:
                         "height": 300,
                         "uirevision": True,
                         "margin": dict(l=0, r=0, t=4, b=4, pad=4),
+                        "uirevision": True,
                     },
                 }
             ),
