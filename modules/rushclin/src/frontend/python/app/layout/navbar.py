@@ -30,6 +30,13 @@ class Navbar:
                             className="custom-tab text-uppercase",
                             selected_className="custom-tab--selected",
                         ),
+                        dcc.Tab(
+                            id="comparateur_tab",
+                            label="Comparateurs",
+                            value="comparateur",
+                            className="custom-tab text-uppercase",
+                            selected_className="custom-tab--selected",
+                        ),
                     ],
                 )
             ],

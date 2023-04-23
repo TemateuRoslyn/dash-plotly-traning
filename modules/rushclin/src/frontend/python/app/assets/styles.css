@@ -44,7 +44,8 @@ body {
 }
 
 #setting_tab.custom-tab,
-#control_tab.custom-tab {
+#control_tab.custom-tab,
+#comparateur_tab.custom-tab {
   background-color: #161a28;
   letter-spacing: 1px;
   color: inherit;
@@ -59,12 +60,17 @@ body {
 }
 
 #setting_tab.custom-tab--selected,
-#control_tab.custom-tab--selected {
+#control_tab.custom-tab--selected,
+#comparateur_tab.custom-tab--selected {
   border-bottom: #91dfd2 solid 4px !important;
 }
 
 #setting_tab.custom-tab {
   margin-right: 3px;
+}
+#comparateur_tab.custom-tab {
+  margin-right: 6px;
+  margin-left: 6px;
 }
 
 #control_tab.custom-tab {
