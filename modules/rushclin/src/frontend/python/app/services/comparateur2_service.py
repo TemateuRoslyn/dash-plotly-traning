@@ -1,7 +1,7 @@
 from services.APIRequest import APIRequest
 
 
-class Accelerometre2Service:
+class Comparateur2Service:
     def __init__(self):
         self.request = APIRequest()
 
