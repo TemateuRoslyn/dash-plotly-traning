@@ -15,7 +15,7 @@ docker run -d --rm --name redis-1 --net redis -v ${PWD}/redis-1:/etc/redis/ redi
 docker run -d --rm --name redis-2 --net redis -v ${PWD}/redis-2:/etc/redis/ redis redis-server /etc/redis/redis.conf
 
 # sentinel-0
-docker run -d --rm --name sentinel-0 --net redis -v ${PWD}/sentinel-0:/etc/redis/ redis redis-sentinel /etc/redis/sentinel.conf
+docker run -d --rm --name sentinel-0 --net redis -v ${PWD}/sentinel-0:/etc/redis/ redis redis-server /etc/redis/sentinel.conf --sentinel
 
 # sentinel-1
 docker run -d --rm --name sentinel-1 --net redis -v ${PWD}/sentinel-1:/etc/redis/ redis redis-sentinel /etc/redis/sentinel.conf
