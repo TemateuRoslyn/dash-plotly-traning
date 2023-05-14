@@ -1,4 +1,4 @@
-FROM python:3.9.6-alpine3.13 as dev
+FROM python:3.10 as dev
 
 WORKDIR /work
 
@@ -11,4 +11,4 @@ RUN pip install -r /app/requirements.txt
 COPY ./src/app.py /app/app.py
 ENV FLASK_APP=app.py
 
-CMD flask run -h 0.0.0 -p 5000
+CMD flask run -h 0.0.0 -p 5004
