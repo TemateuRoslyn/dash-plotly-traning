@@ -2,7 +2,7 @@
 
 import redis,json,random
 
-list = [94016, 80014, 60659, 10011]
+liste = [94016, 80014, 60659, 10011]
 
 redis_cli = redis.Redis(host='172.17.0.2',port=6379)
 
@@ -13,21 +13,32 @@ class Accelerometre1:
         self.temperature = 0
         self.time = 0
 
-    def to_json(self):
-        return json.dumps({
-            'time':self.time,
-            'temperature':self.temperature,
-            'postal_code':self.postal_codes,
-            })
-
     def set_next(self):
         self.time += 1
-        self.postal_codes = list[random.randint(0,(len(list)-1))]
+        self.postal_codes = liste[random.randint(0,(len(liste)-1))]
         self.temperature = random.uniform(-5,100)
-        return redis_cli.set(self.time,self.to_json())
+        redis_cli.rpush('temperatures',self.temperature)
+        redis_cli.rpush('postal_codes',self.postal_codes)
+        redis_cli.rpush('time',self.time)
+        return True
 
     def get_next(self):
-        # self.temperature = self.temperature + [random.uniform(-5,100)]
-        # self.time = self.time + [len(self.time)+1]
-        # self.postal_codes = self.postal_codes + [list[random.randint(0,(len(list)-1))]]
-        return {"temperature": self.temperature, "time": self.time, "code":self.postal_codes}
+        length = len(redis_cli.lrange('temperatures',0,-1))
+        if length < 101:
+            temps_bytes = redis_cli.lrange('temperatures',0,(length -1))
+            postal_codes_bytes = redis_cli.lrange('postal_codes',0,(length -1))
+            times_bytes = redis_cli.lrange('time',0,(length -1))
+            return {
+                    "temperature": list(map(lambda x:json.loads(x),temps_bytes)), 
+                    "time": list(map(lambda x:json.loads(x),times_bytes)), 
+                    "code":list(map(lambda x:json.loads(x),postal_codes_bytes))
+                }
+        else:
+            temps_bytes = redis_cli.lrange('temperatures',(length -100),(length -1))
+            postal_codes_bytes = redis_cli.lrange('postal_codes',(length -100),(length -1))
+            times_bytes = redis_cli.lrange('time',(length -100),(length -1))
+            return {
+                    "temperature": list(map(lambda x:json.loads(x),temps_bytes)), 
+                    "time": list(map(lambda x:json.loads(x),times_bytes)), 
+                    "code":list(map(lambda x:json.loads(x),postal_codes_bytes))
+                }
