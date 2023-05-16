@@ -1,6 +1,10 @@
 from dash import Output, Input, State
 from services.accelerometre1_service import Accelerometre1Service
 from components.sparkline_graph import SparkLine
+from datetime import datetime, timedelta
+from services.redis_service import RedisServices
+
+UPDATE_INTERVAL = 1
 
 
 class CapteurSparkLineCallback:
@@ -10,8 +14,8 @@ class CapteurSparkLineCallback:
         self.Y1 = []
         self.Y2 = []
         self.X = []
-        self.X = [0 for i in range(5)]
         self.sparkline = SparkLine()
+        self.redis = RedisServices()
 
     def register(self):
         @self.app.callback(
@@ -20,17 +24,25 @@ class CapteurSparkLineCallback:
             Input("interval-component", "n_intervals"),
         )
         def update_capteur(n):
-            data = self.capteur_service.get_next()
+            data = self.redis.get_data("acc-1")
+            self.capteur_service.get_next()
+            self.X = [
+                datetime.now() + timedelta(seconds=i * UPDATE_INTERVAL)
+                for i in range(n + 1)
+            ]
+
             if data is not None:
-                value = data['time ']
+                value = data["time "]
                 self.Y1.append(value)
-                self.Y2.append((value*.5)-20)
+                self.Y2.append((value * 0.5) - 20)
                 return [
                     self.sparkline.render(
-                        id='sprk-1', x=None, y=self.Y1, name='Capteur 1'),
+                        id="sprk-1", x=self.X, y=self.Y1[-60:], name="Capteur 1"
+                    ),
                     self.sparkline.render(
-                        id='sprk-2', x=None, y=self.Y2, name='Capteur 2')
+                        id="sprk-2", x=None, y=self.Y2[-60:], name="Capteur 2"
+                    ),
                 ]
-            else:
-                print("Data is None")
-                return []
+
+            print("Data is None")
+            return []

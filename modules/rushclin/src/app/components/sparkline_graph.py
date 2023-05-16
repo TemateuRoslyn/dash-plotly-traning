@@ -1,6 +1,7 @@
 from dash import dcc
 import plotly.graph_objs as go
 import numpy as np
+
 np.random.seed(1)
 
 
@@ -36,12 +37,8 @@ class SparkLine:
                         }
                     ],
                     "layout": {
-                        "xaxis": dict(
-                            showline=False, showgrid=False, zeroline=False
-                        ),
-                        "yaxis": dict(
-                            showgrid=False, showline=False, zeroline=False
-                        ),
+                        "xaxis": dict(showline=False, showgrid=False, zeroline=False),
+                        "yaxis": dict(showgrid=False, showline=False, zeroline=False),
                         "autosize": True,
                         "showlegend": True,
                         "paper_bgcolor": "rgba(0,0,0,0)",
@@ -54,7 +51,7 @@ class SparkLine:
                     },
                 }
             ),
-            className='py-2 px-4 bg-dark rounded'
+            className="py-2 px-4 bg-dark rounded",
         )
 
         return fig
